@@ -1,15 +1,17 @@
+import os
 import threading
 from flask import Flask, request, jsonify
 import discord
 from discord.ext import commands
-import os
-
-# 1. Paste your NEW Bot Token here
-TOKEN = os.environ.get('DISCORD_TOKEN')# 2. Your user ID
-MY_USER_ID = 715160948675182613 
 
 app = Flask(__name__)
+
+# Railway will provide the Token via Environment Variables
+TOKEN = os.environ.get('DISCORD_TOKEN')
+MY_USER_ID = 715160948675182613 
+
 intents = discord.Intents.default()
+intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 @app.route('/webhook', methods=['POST'])
@@ -28,7 +30,13 @@ async def send_dm(activity, date):
         print(f"Error: {e}")
 
 def run_flask():
-    app.run(host='0.0.0.0', port=5000)
+    # Railway sets the PORT automatically
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
+@bot.event
+async def on_ready():
+    print(f'Logged in as {bot.user}')
 
 if __name__ == '__main__':
     threading.Thread(target=run_flask).start()
