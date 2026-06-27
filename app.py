@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 
 # 1. Paste your NEW Bot Token here
-TOKEN = '-' 
+TOKEN = 'DISCORD_TOKEN' 
 # 2. Your user ID
 MY_USER_ID = 715160948675182613 
 
