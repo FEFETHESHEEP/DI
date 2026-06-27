@@ -4,8 +4,7 @@ import discord
 from discord.ext import commands
 
 # 1. Paste your NEW Bot Token here
-TOKEN = 'DISCORD_TOKEN' 
-# 2. Your user ID
+TOKEN = os.environ.get('DISCORD_TOKEN')# 2. Your user ID
 MY_USER_ID = 715160948675182613 
 
 app = Flask(__name__)
