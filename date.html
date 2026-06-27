@@ -3,17 +3,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: #fff0f5; padding: 20px; }
+        body { font-family: sans-serif; text-align: center; background: #fff0f5; padding: 20px; }
         .card { background: white; padding: 30px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
         .hidden { display: none; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .option { padding: 15px; border: 2px solid #ffb6c1; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .option.selected { background: #ffb6c1; color: white; border-color: #ff69b4; }
-        button { padding: 12px 25px; border-radius: 10px; border: none; background: #ffb6c1; color: white; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .option { padding: 15px; border: 2px solid #ffb6c1; border-radius: 10px; cursor: pointer; }
+        .option.selected { background: #ffb6c1; color: white; }
+        button { padding: 12px 25px; border-radius: 10px; border: none; background: #ffb6c1; color: white; font-weight: bold; cursor: pointer; }
+        textarea { width: 100%; margin: 15px 0; padding: 10px; border-radius: 10px; border: 1px solid #ffb6c1; box-sizing: border-box; }
     </style>
 </head>
 <body>
-
     <div id="homepage" class="card">
         <h1>Hello my Moon 🌙</h1>
         <button onclick="showForm()">Let's get started</button>
@@ -29,8 +29,8 @@
             <div class="option" onclick="selectVibe(this, 'The Rotunda Kingston')">Arcade/Bowling 🎮🎳</div>
             <div class="option" onclick="selectVibe(this, 'Restaurant')">Food 🍱</div>
         </div>
-        <textarea id="notes" placeholder="Any notes for me? (Like how much you love me ;) )" style="width: 80%; margin: 15px 0; padding: 10px; border-radius: 10px; border: 1px solid #ffb6c1;"></textarea>
-        <input type="date" id="date" style="padding: 10px; margin-bottom: 20px;" required><br>
+        <textarea id="notes" placeholder="Any notes for me?"></textarea>
+        <input type="date" id="date" style="padding: 10px; width: 100%; margin-bottom: 20px;" required>
         <button onclick="sendDate()">Set the date! 💖</button>
     </div>
 
@@ -47,13 +47,16 @@
         }
         async function sendDate() {
             const date = document.getElementById('date').value;
+            const notes = document.getElementById('notes').value;
             if (!selectedVibe || !date) return alert("Pick a place and a date!");
-            await fetch('/webhook', {
+            
+            // USE YOUR FULL RAILWAY URL HERE
+            const response = await fetch('https://YOUR_RAILWAY_URL.up.railway.app/webhook', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ activity: selectedVibe, date: date })
+                body: JSON.stringify({ activity: selectedVibe, date: date, notes: notes })
             });
-            alert('Date set! Check Discord! 🎀');
+            alert('Date set! I'll check my schedule, Love you! 🎀');
         }
     </script>
 </body>
