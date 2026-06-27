@@ -6,13 +6,19 @@ from discord.ext import commands
 
 app = Flask(__name__)
 
-# Railway will provide the Token via Environment Variables
+# This pulls the token from Railway's "Variables" settings
 TOKEN = os.environ.get('DISCORD_TOKEN')
+# Replace this with your actual Discord User ID (as an integer)
 MY_USER_ID = 715160948675182613 
 
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
+
+# Added this so visiting the site base URL returns a success message
+@app.route('/', methods=['GET'])
+def home():
+    return "Bot is online and active!"
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -27,10 +33,9 @@ async def send_dm(activity, date):
         user = await bot.fetch_user(MY_USER_ID)
         await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error sending DM: {e}")
 
 def run_flask():
-    # Railway sets the PORT automatically
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
