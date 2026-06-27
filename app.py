@@ -13,7 +13,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# This serves your date.html automatically when you visit the URL
+# Serve the HTML file from the same directory
 @app.route('/')
 def index():
     return send_from_directory('.', 'date.html')
@@ -21,12 +21,17 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
-    bot.loop.create_task(send_dm(data.get('activity'), data.get('date')))
+    activity = data.get('activity')
+    date = data.get('date')
+    bot.loop.create_task(send_dm(activity, date))
     return jsonify({"status": "received"}), 200
 
 async def send_dm(activity, date):
-    user = await bot.fetch_user(MY_USER_ID)
-    await user.send(f"📅 **Date Idea:** {activity} on {date}")
+    try:
+        user = await bot.fetch_user(MY_USER_ID)
+        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}")
+    except Exception as e:
+        print(f"Error sending DM: {e}")
 
 def run_flask():
     port = int(os.environ.get("PORT", 5000))
