@@ -5,20 +5,15 @@ import discord
 from discord.ext import commands
 
 app = Flask(__name__)
-
-# This pulls the token from Railway's "Variables" settings
 TOKEN = os.environ.get('DISCORD_TOKEN')
-# Replace this with your actual Discord User ID (as an integer)
 MY_USER_ID = 715160948675182613 
 
 intents = discord.Intents.default()
-intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Added this so visiting the site base URL returns a success message
 @app.route('/', methods=['GET'])
 def home():
-    return "Bot is online and active!"
+    return "Bot is online!"
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
@@ -29,20 +24,9 @@ def webhook():
     return jsonify({"status": "received"}), 200
 
 async def send_dm(activity, date):
-    try:
-        user = await bot.fetch_user(MY_USER_ID)
-        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}")
-    except Exception as e:
-        print(f"Error sending DM: {e}")
-
-def run_flask():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user}')
+    user = await bot.fetch_user(MY_USER_ID)
+    await user.send(f"📅 **Date Idea:** {activity} on {date}")
 
 if __name__ == '__main__':
-    threading.Thread(target=run_flask).start()
+    threading.Thread(target=lambda: app.run(host='0.0.0.0', port=5000)).start()
     bot.run(TOKEN)
