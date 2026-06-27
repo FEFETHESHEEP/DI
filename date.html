@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; text-align: center; background: #fff0f5; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .option { padding: 15px; border: 2px solid #ffb6c1; border-radius: 10px; cursor: pointer; }
+        .option.selected { background: #ffb6c1; color: white; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>What are we feeling? ✨</h1>
+        <div class="grid" id="vibeGrid">
+            <div class="option" onclick="selectVibe('River Thames Path')">River Thames 🌊</div>
+            <div class="option" onclick="selectVibe('Ashley Park')">Ashley Park 🌳</div>
+            <div class="option" onclick="selectVibe('The Heart')">The Heart 🛍️</div>
+            <div class="option" onclick="selectVibe('Cinemas')">Cinema 🎬</div>
+            <div class="option" onclick="selectVibe('The Rotunda Kingston')">Arcade/bowling 🎬</div>
+            <div class="option" onclick="selectVibe('Restaurant')">Food 🎬</div>
+        </div>
+        <input type="date" id="date" required><br><br>
+        <button onclick="sendDate()">Set the date! 💖</button>
+    </div>
+
+    <script>
+        let selectedVibe = "";
+        function selectVibe(vibe) {
+            selectedVibe = vibe;
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        async function sendDate() {
+            const date = document.getElementById('date').value;
+            if (!selectedVibe || !date) return alert("Pick a place and a date!");
+            
+            await fetch('https://YOUR_RAILWAY_URL.up.railway.app/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ activity: selectedVibe, date: date })
+            });
+            alert('Date set! Love you Abi! 🎀');
+        }
+    </script>
+</body>
+</html>
