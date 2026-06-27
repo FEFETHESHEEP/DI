@@ -2,6 +2,7 @@ import threading
 from flask import Flask, request, jsonify
 import discord
 from discord.ext import commands
+import os
 
 # 1. Paste your NEW Bot Token here
 TOKEN = os.environ.get('DISCORD_TOKEN')# 2. Your user ID
