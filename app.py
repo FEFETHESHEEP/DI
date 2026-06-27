@@ -7,13 +7,12 @@ from discord.ext import commands
 app = Flask(__name__, static_folder='.')
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
-MY_USER_ID = 715160948675182613 
+MY_USER_ID = 715160948675182613 # Ensure this is your actual numeric ID
 
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Serve the HTML file from the same directory
 @app.route('/')
 def index():
     return send_from_directory('.', 'date.html')
@@ -21,15 +20,20 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
+    print(f"DEBUG: Received data: {data}")
     activity = data.get('activity')
     date = data.get('date')
-    bot.loop.create_task(send_dm(activity, date))
+    notes = data.get('notes')
+    
+    # We use a wrapper to handle the async discord call
+    bot.loop.create_task(send_dm(activity, date, notes))
     return jsonify({"status": "received"}), 200
 
-async def send_dm(activity, date):
+async def send_dm(activity, date, notes):
     try:
         user = await bot.fetch_user(MY_USER_ID)
-        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}")
+        note_text = f"\nNotes: {notes}" if notes else ""
+        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}{note_text}")
     except Exception as e:
         print(f"Error sending DM: {e}")
 
