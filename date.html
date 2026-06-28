@@ -9,7 +9,7 @@
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .option { padding: 15px; border: 2px solid #ffb6c1; border-radius: 10px; cursor: pointer; }
         .option.selected { background: #ffb6c1; color: white; }
-        button { padding: 12px 25px; border-radius: 10px; border: none; background: #ffb6c1; color: white; font-weight: bold; cursor: pointer; }
+        button { padding: 15px 30px; border-radius: 10px; border: none; background: #ffb6c1; color: white; font-weight: bold; cursor: pointer; }
         textarea { width: 100%; margin: 15px 0; padding: 10px; border-radius: 10px; border: 1px solid #ffb6c1; box-sizing: border-box; }
     </style>
 </head>
@@ -50,8 +50,8 @@
             const notes = document.getElementById('notes').value;
             if (!selectedVibe || !date) return alert("Pick a place and a date!");
             
-            // REPLACE THE URL BELOW WITH YOUR ACTUAL RAILWAY APP URL
-            const response = await fetch('https://YOUR_RAILWAY_URL_HERE.up.railway.app/webhook', {
+            // REPLACE THIS URL BELOW WITH YOUR ACTUAL LIVE RAILWAY URL
+            const response = await fetch('https://date.up.railway.app', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ activity: selectedVibe, date: date, notes: notes })
