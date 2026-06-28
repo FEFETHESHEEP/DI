@@ -7,7 +7,7 @@ from discord.ext import commands
 app = Flask(__name__, static_folder='.')
 
 TOKEN = os.environ.get('DISCORD_TOKEN')
-MY_USER_ID = 715160948675182613 # Double check this is your correct numeric ID!
+MY_USER_ID = 715160948675182613 # Ensure this is your ID
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -29,9 +29,9 @@ def webhook():
 async def send_dm(activity, date, notes):
     try:
         user = await bot.fetch_user(MY_USER_ID)
-        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}\nNotes: {notes}\n\nCheck if you are free!")
+        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}\nNotes: {notes}")
     except Exception as e:
-        print(f"DM Error: {e}")
+        print(f"Error: {e}")
 
 def run_flask():
     port = int(os.environ.get("PORT", 5000))
