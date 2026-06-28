@@ -6,7 +6,7 @@ from discord.ext import commands
 
 app = Flask(__name__, static_folder='.')
 
-TOKEN = os.environ.get('DISCORD_TOKEN')
+TOKEN = os.environ.get('DISCORD-TOKEN')
 MY_USER_ID = 715160948675182613 # Ensure this is your ID
 
 intents = discord.Intents.default()
