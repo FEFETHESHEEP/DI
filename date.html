@@ -3,8 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { margin: 0; padding: 20px; font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #fff0f5; min-height: 100vh; }
-        .card { background: white; padding: 30px; border-radius: 20px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; margin: auto; }
+        body { margin: 0; padding: 20px; font-family: 'Segoe UI', sans-serif; text-align: center; background-color: #fff0f5; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
         .hidden { display: none; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
         .option { padding: 15px; border: 2px solid #ffb6c1; border-radius: 10px; cursor: pointer; transition: 0.2s; }
@@ -27,7 +27,7 @@
             <div class="option" onclick="selectVibe(this, 'Ashley Park')">Ashley Park 🌳</div>
             <div class="option" onclick="selectVibe(this, 'The Heart')">The Heart 🛍️</div>
             <div class="option" onclick="selectVibe(this, 'Cinemas')">Cinema 🎬</div>
-            <div class="option" onclick="selectVibe(this, 'Bowling/Arcade')">Arcade/Bowling 🎮</div>
+            <div class="option" onclick="selectVibe(this, 'Arcade/Bowling')">Arcade/Bowling 🎮</div>
             <div class="option" onclick="selectVibe(this, 'Restaurant')">Food/Dining 🍱</div>
             <div class="option" onclick="selectVibe(this, 'Museum')">Museum 🏛️</div>
             <div class="option" onclick="selectVibe(this, 'Picnic')">Picnic 🧺</div>
@@ -49,6 +49,7 @@
             const n = document.getElementById('notes').value;
             if (!selectedVibe || !d) return alert("Select place & date!");
             
+            // Using relative URL '/webhook' so it sends directly to your backend
             const res = await fetch('/webhook', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
