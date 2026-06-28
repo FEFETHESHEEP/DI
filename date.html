@@ -15,12 +15,12 @@
 </head>
 <body>
     <div id="homepage" class="card">
-        <h1>Hello my Moon 🌙</h1>
+        <h1>Hello my Moon 🌙❤️</h1>
         <button onclick="document.getElementById('homepage').style.display='none'; document.getElementById('formPage').classList.remove('hidden');">Let's get started</button>
     </div>
 
     <div id="formPage" class="card hidden">
-        <h1>What are we feeling? ✨</h1>
+        <h1>Where would you like to go? ✨</h1>
         <div class="grid">
             <div class="option" onclick="selectVibe(this, 'River Thames')">River Thames 🌊</div>
             <div class="option" onclick="selectVibe(this, 'Ashley Park')">Ashley Park 🌳</div>
@@ -55,7 +55,7 @@
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({activity: selectedVibe, date: d, notes: n})
             });
-            if(res.ok) alert('Date set, Love you! 💖');
+            if(res.ok) alert('Date set, see you then. I Love you! 💖');
             else alert('Error: Please ask me to check the Logs!');
         }
     </script>
