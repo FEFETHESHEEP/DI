@@ -31,11 +31,17 @@
             <div class="option" onclick="selectVibe(this, 'Museum')">Museum 🏛️</div>
             <div class="option" onclick="selectVibe(this, 'Picnic')">Picnic 🧺</div>
             <div class="option" onclick="selectVibe(this, 'Other...')">Other... 🧺</div>
+       </div> 
+
+        <div style="margin-bottom: 10px;">
+            <textarea id="notes" placeholder="Any notes for me?" style="width: 100%;"></textarea>
         </div>
-        <textarea id="notes" placeholder="Any notes for me?"></textarea>
-        <input type="date" id="date">
+        
+        <div style="margin-bottom: 10px;">
+            <input type="date" id="date" style="width: 100%;">
+        </div>
+
         <button onclick="sendDate()">Set the date! 💖</button>
-    </div>
 
     <script>
         let selectedVibe = "";
