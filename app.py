@@ -5,9 +5,8 @@ import discord
 from discord.ext import commands
 
 app = Flask(__name__, static_folder='.')
-
 TOKEN = os.environ.get('DISCORD-TOKEN')
-MY_USER_ID = 715160948675182613 # Ensure this is your ID
+MY_USER_ID = 715160948675182613
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -20,27 +19,20 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
+    print(f"DEBUG RECEIVED: {data}")
     activity = data.get('activity')
     date = data.get('date')
-    notes = data.get('notes', 'No notes')
+    notes = data.get('notes', 'None')
     bot.loop.create_task(send_dm(activity, date, notes))
-    return jsonify({"status": "received"}), 200
+    return jsonify({"status": "success"}), 200
 
 async def send_dm(activity, date, notes):
     try:
         user = await bot.fetch_user(MY_USER_ID)
-        await user.send(f"📅 **New Date Proposal!**\nActivity: {activity}\nDate: {date}\nNotes: {notes}")
+        await user.send(f"📅 **Date:** {activity}\n📅 **Date:** {date}\n📝 **Notes:** {notes}")
     except Exception as e:
-        print(f"Error: {e}")
-
-def run_flask():
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-
-@bot.event
-async def on_ready():
-    print(f'Bot is ready!')
+        print(f"DISCORD ERROR: {e}")
 
 if __name__ == '__main__':
-    threading.Thread(target=run_flask).start()
-    bot.run(TOKEN)
+    threading.Thread(target=bot.run, args=(TOKEN,)).start()
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
