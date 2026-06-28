@@ -19,7 +19,6 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
-    print(f"Data received: {data}")
     bot.loop.create_task(send_dm(data))
     return jsonify({"status": "success"}), 200
 
