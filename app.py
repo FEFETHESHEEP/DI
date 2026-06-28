@@ -5,6 +5,8 @@ import discord
 from discord.ext import commands
 
 app = Flask(__name__, static_folder='.')
+
+# Load variables from Railway
 TOKEN = os.environ.get('DISCORD-TOKEN')
 MY_USER_ID = 715160948675182613
 
@@ -19,20 +21,26 @@ def index():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
-    print(f"DEBUG RECEIVED: {data}")
+    print(f"DEBUG: Data received: {data}")
     activity = data.get('activity')
     date = data.get('date')
-    notes = data.get('notes', 'None')
+    notes = data.get('notes', 'No notes provided')
+    
+    # Send the DM
     bot.loop.create_task(send_dm(activity, date, notes))
     return jsonify({"status": "success"}), 200
 
 async def send_dm(activity, date, notes):
     try:
         user = await bot.fetch_user(MY_USER_ID)
-        await user.send(f"📅 **Date:** {activity}\n📅 **Date:** {date}\n📝 **Notes:** {notes}")
+        await user.send(f"📅 **New Date!**\nActivity: {activity}\nDate: {date}\nNotes: {notes}")
     except Exception as e:
-        print(f"DISCORD ERROR: {e}")
+        print(f"DM ERROR: {e}")
+
+# Start the Bot in a background thread
+def run_bot():
+    bot.run(TOKEN)
 
 if __name__ == '__main__':
-    threading.Thread(target=bot.run, args=(TOKEN,)).start()
+    threading.Thread(target=run_bot).start()
     app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 5000)))
